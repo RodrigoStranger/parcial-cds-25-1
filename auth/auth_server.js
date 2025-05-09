@@ -1,9 +1,11 @@
 require('dotenv').config({ path: require('path').resolve(__dirname, '../.env.local') });
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const pool = require('../src/config/database');
 
 const app = express();
+
 app.use(express.json());
 
 const SECRET_KEY = process.env.JWT_SECRET;
