@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
   const { ruc, nombre_linea } = req.body;
   try {
     const result = await LineaModel.agregarLinea(ruc, nombre_linea);
-    res.status(201).json({ message: 'Línea agregada correctamente', result });
+    res.status(201).json({ message: 'Línea agregada correctamente'});
   } catch (error) {
     res.status(400).json({ error: error.sqlMessage || error.message });
   }
@@ -66,7 +66,7 @@ router.put('/:cod_linea/nombre', async (req, res) => {
   const { nuevo_nombre_linea } = req.body;
   try {
     const result = await LineaModel.actualizarNombreLinea(cod_linea, nuevo_nombre_linea);
-    res.json({ message: 'Nombre de línea actualizado', result });
+    res.json({ message: 'Nombre de línea actualizado'});
   } catch (error) {
     res.status(400).json({ error: error.sqlMessage || error.message });
   }
