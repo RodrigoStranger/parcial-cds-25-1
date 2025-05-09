@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const LineaModel = require('../models/linea.model');
+const verifyToken = require('../auth/autentication');
+
+// Proteger todas las rutas
+router.use(verifyToken);
 
 // POST: Agregar una línea
 router.post('/', async (req, res) => {
