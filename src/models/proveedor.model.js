@@ -36,11 +36,18 @@ async function actualizarProveedor(ruc, nuevo_nombre) {
   return result;
 }
 
+// Obtener líneas de un proveedor
+async function obtenerLineasDeProveedor(ruc) {
+  const [rows] = await pool.query('CALL ObtenerLineasDeProveedor(?)', [ruc]);
+  return rows[0];
+}
+
 module.exports = {
   agregarProveedor,
   obtenerProveedores,
   obtenerProveedorPorRuc,
   obtenerProductosDeProveedor,
   obtenerProductosMasVendidosPorProveedor,
-  actualizarProveedor
+  actualizarProveedor,
+  obtenerLineasDeProveedor
 };

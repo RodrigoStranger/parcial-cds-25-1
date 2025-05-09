@@ -60,6 +60,17 @@ router.get('/:ruc/productos-mas-vendidos', async (req, res) => {
   }
 });
 
+// GET: Obtener líneas de un proveedor
+router.get('/:ruc/lineas', async (req, res) => {
+  const { ruc } = req.params;
+  try {
+    const lineas = await ProveedorModel.obtenerLineasDeProveedor(ruc);
+    res.json(lineas);
+  } catch (error) {
+    res.status(404).json({ error: error.sqlMessage || error.message });
+  }
+});
+
 // PUT: Actualizar proveedor
 router.put('/:ruc', async (req, res) => {
   const { ruc } = req.params;
