@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '.env.local' });
 const express = require('express');
 const pool = require('./src/config/database');
 const lineasRouter = require('./src/routes/lineas.routes');
@@ -5,7 +6,7 @@ const lineasRouter = require('./src/routes/lineas.routes');
 const app = express();
 app.use(express.json());
 app.use('/lineas', lineasRouter);
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.PORT || 3000;
 
 (async () => {
   try {
