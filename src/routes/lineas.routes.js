@@ -78,7 +78,7 @@ router.put('/:cod_linea/ruc', async (req, res) => {
   const { nuevo_ruc } = req.body;
   try {
     const result = await LineaModel.actualizarRucLinea(cod_linea, nuevo_ruc);
-    res.json({ message: 'RUC de línea actualizado', result });
+    res.json({ message: 'RUC de línea actualizado'});
   } catch (error) {
     res.status(400).json({ error: error.sqlMessage || error.message });
   }
