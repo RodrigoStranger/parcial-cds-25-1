@@ -9,6 +9,7 @@ const productosRouter = require('./src/routes/productos.routes');
 const telefonosRouter = require('./src/routes/telefonos_personas.routes');
 const telefonosProveedoresRouter = require('./src/routes/telefonos_proveedores.routes')
 const direccionesPersonasRouter = require('./src/routes/direcciones_personas.routes')
+const personasRouter = require('./src/routes/personas.routes')
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/productos', productosRouter);
 app.use('/telefonos_personas', telefonosRouter);
 app.use('/telefonos_proveedores', telefonosProveedoresRouter);
 app.use('/direcciones_personas', direccionesPersonasRouter);
+app.use('/personas', personasRouter);
 
 const PORT = process.env.PORT || 3000;
 
