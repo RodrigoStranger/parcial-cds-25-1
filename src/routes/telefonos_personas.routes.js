@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const TelefonosPersonas = require('../models/telefonos_personas.model');
+const verifyToken = require('../../auth/autentication');
+
+// Proteger todas las rutas
+router.use(verifyToken);
 
 // POST: Agregar un teléfono a una persona
 router.post('/', async (req, res) => {
