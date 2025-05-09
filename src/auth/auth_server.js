@@ -37,6 +37,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.listen(5001, () => {
+app.listen(3501, () => {
   console.log('Servidor de autenticación escuchando en http://localhost:3501');
 });
