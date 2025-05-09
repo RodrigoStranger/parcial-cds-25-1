@@ -24,6 +24,12 @@ async function buscarProductoPorNombre(nombre_producto) {
   return rows[0];
 }
 
+// Obtener todos los productos disponibles
+async function obtenerTodosLosProductosDisponibles() {
+  const [rows] = await pool.query('CALL ObtenerTodosLosProductosDisponibles()');
+  return rows[0];
+}
+
 // Obtener stock por ID
 async function obtenerStockPorId(cod_producto) {
   const [rows] = await pool.query('CALL ObtenerStockPorId(?)', [cod_producto]);
@@ -56,5 +62,6 @@ module.exports = {
   obtenerStockPorId,
   actualizarProducto,
   actualizarEstadoAgotado,
-  actualizarStockProducto
+  actualizarStockProducto,
+  obtenerTodosLosProductosDisponibles
 };

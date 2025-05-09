@@ -32,7 +32,7 @@ app.post('/login', async (req, res) => {
       cod_empleado: empleado.cod_empleado,
       es_administrador: empleado.es_administrador
     };
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '5h' });
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
     res.json({ mensaje: 'Login exitoso', token });
   } catch (error) {
     res.status(500).json({ error: 'Error en la base de datos', detalle: error.message });

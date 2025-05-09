@@ -27,6 +27,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET: Obtener todos los productos disponibles
+router.get('/disponibles', async (req, res) => {
+  try {
+    const productos = await ProductoModel.obtenerTodosLosProductosDisponibles();
+    res.json(productos);
+  } catch (error) {
+    res.status(404).json({ error: error.sqlMessage || error.message });
+  }
+});
+
 // GET: Obtener producto por ID
 router.get('/:cod_producto', async (req, res) => {
   const { cod_producto } = req.params;
