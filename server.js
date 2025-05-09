@@ -6,6 +6,7 @@ const lineasRouter = require('./src/routes/lineas.routes');
 const rolesRouter = require('./src/routes/roles.routes');
 const categoriasRouter = require('./src/routes/categorias.routes');
 const productosRouter = require('./src/routes/productos.routes');
+const telefonosRouter = require('./src/routes/telefonos_personas.routes');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use('/lineas', lineasRouter);
 app.use('/roles', rolesRouter);
 app.use('/categorias', categoriasRouter);
 app.use('/productos', productosRouter);
+app.use('/telefonos_personas', telefonosRouter);
 
 const PORT = process.env.PORT || 3000;
 
