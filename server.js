@@ -1,7 +1,10 @@
 const express = require('express');
 const pool = require('./src/config/database');
+const lineasRouter = require('./src/routes/lineas.routes');
 
 const app = express();
+app.use(express.json());
+app.use('/lineas', lineasRouter);
 const PORT = process.env.PORT || 3500;
 
 (async () => {
@@ -9,7 +12,6 @@ const PORT = process.env.PORT || 3500;
     const connection = await pool.getConnection();
     await connection.ping();
     connection.release();
-    console.log('Conexión exitosa');
     console.log(`Base de datos: ${process.env.MYSQL_DATABASE}`);
     console.log(`Usuario: ${process.env.MYSQL_USER}`);
     console.log(`Puerto: ${process.env.MYSQL_PORT}`);
