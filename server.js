@@ -6,6 +6,7 @@ const lineasRouter = require('./src/routes/lineas.routes');
 const rolesRouter = require('./src/routes/roles.routes');
 const categoriasRouter = require('./src/routes/categorias.routes');
 const productosRouter = require('./src/routes/productos.routes');
+const proveedoresRouter = require('./src/routes/proveedores.routes');
 const telefonosRouter = require('./src/routes/telefonos_personas.routes');
 const telefonosProveedoresRouter = require('./src/routes/telefonos_proveedores.routes')
 const direccionesPersonasRouter = require('./src/routes/direcciones_personas.routes')
@@ -17,6 +18,7 @@ app.use('/lineas', lineasRouter);
 app.use('/roles', rolesRouter);
 app.use('/categorias', categoriasRouter);
 app.use('/productos', productosRouter);
+app.use('/proveedores', proveedoresRouter);
 app.use('/telefonos_personas', telefonosRouter);
 app.use('/telefonos_proveedores', telefonosProveedoresRouter);
 app.use('/direcciones_personas', direccionesPersonasRouter);
