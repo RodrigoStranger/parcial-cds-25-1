@@ -96,18 +96,6 @@ const SECRET_KEY = process.env.JWT_SECRET;
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
- *                   type: string
- *                 token:
- *                   type: string
- *       400:
- *         description: DNI o contraseña faltante
- *       401:
- *         description: Usuario o contraseña incorrectos
- *       403:
- *         description: Usuario inactivo
- *       500:
- *         description: Error en la base de datos
- */
 app.post('/login', async (req, res) => {
   const { dni, contraseña } = req.body;
   if (!dni || !contraseña) {
