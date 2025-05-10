@@ -13,6 +13,7 @@ const direccionesPersonasRouter = require('./src/routes/direcciones_personas.rou
 const clientesRouter = require('./src/routes/clientes.routes');
 const asesoresRouter = require('./src/routes/asesores.routes');
 const vendedoresRouter = require('./src/routes/vendedores.routes');
+const contratosRouter = require('./src/routes/contratos.routes');
 const especialidadesRouter = require('./src/routes/especialidades.routes')
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/direcciones_personas', direccionesPersonasRouter);
 app.use('/clientes', clientesRouter);
 app.use('/asesores', asesoresRouter);
 app.use('/vendedores', vendedoresRouter);
+app.use('/contratos', contratosRouter);
 app.use('/especialidades', especialidadesRouter);
 
 const PORT = process.env.PORT || 3000;
