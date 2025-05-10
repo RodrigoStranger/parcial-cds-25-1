@@ -76,10 +76,11 @@ Para obtener un token, haz login en `/auth/login` enviando tu usuario y contrase
    ```
    El servidor correrá por defecto en `http://localhost:3000`.
 
-## Uso de la API de consultaDni
+## Uso de la función consultaDni
 
-El sistema integra una API de consultaDni que, al registrar un asesor o vendedor, obtiene automáticamente los datos personales (nombre, apellidos, fecha de nacimiento) a partir del DNI proporcionado. Solo necesitas enviar el DNI y los datos mínimos requeridos en el endpoint correspondiente, y el sistema completará el resto de la información.
+`consultaDni` es una función interna del sistema, no es un servicio ni un endpoint externo. Se ejecuta automáticamente al registrar un asesor o vendedor: recibe el DNI y obtiene los datos personales (nombre, apellidos, fecha de nacimiento) para completar el registro. **No necesitas llamarla manualmente ni correrla aparte.**
 
+Solo debes enviar el DNI y los datos mínimos requeridos en el endpoint correspondiente, y el sistema completará el resto de la información usando esta función.
 ## Estructura principal
 
 - **/src/models/**: Modelos de acceso a datos y lógica de negocio.
