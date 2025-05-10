@@ -13,10 +13,29 @@ async function generarDatosCompletos(dni) {
   try {
     const response = await axios.post(url, data, { headers });
     const apiData = response.data && response.data.data ? response.data.data : {};
+    // Función para capitalizar nombres y apellidos
+    function capitalizar(texto) {
+      if (!texto) return null;
+      // Capitaliza cada palabra separada por espacio
+      return texto
+        .toLowerCase()
+        .split(' ')
+        .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+        .join(' ');
+    }
+
+    const nombre = apiData.name ? capitalizar(apiData.name) : null;
+    let apellido_paterno = null;
+    let apellido_materno = null;
+    if (apiData.surname) {
+      const apellidos = apiData.surname.split(' ');
+      apellido_paterno = apellidos[0] ? capitalizar(apellidos[0]) : null;
+      apellido_materno = apellidos[1] ? capitalizar(apellidos[1]) : null;
+    }
     return {
-      nombre: apiData.name || null,
-      apellido_paterno: apiData.surname ? apiData.surname.split(' ')[0] || null : null,
-      apellido_materno: apiData.surname ? apiData.surname.split(' ')[1] || null : null,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
       fecha_nacimiento: apiData.date_of_birth || null,
       apiData
     };
