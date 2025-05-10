@@ -1,5 +1,8 @@
 # Sistema de Gestión FabiaNatura
 
+> **Recursos de la base de datos**: scripts, diagramas y procedimientos almacenados están disponibles en el repositorio [parcial-cds-25-1-base-de-datos](https://github.com/RodrigoStranger/parcial-cds-25-1-base-de-datos)
+
+
 Este proyecto es un sistema de gestión para FabiaNatura, desarrollado en Node.js con Express y MySQL. Permite la administración de clientes, asesores, vendedores, contratos, especialidades, productos, facturas y más.
 
 ## Configuración Inicial de MySQL
@@ -113,16 +116,3 @@ Solo debes enviar el DNI y los datos mínimos requeridos en el endpoint correspo
 
 ## Seguridad
 - Todas las rutas principales están protegidas con autenticación JWT.
-
-## Dependencias principales
-- `express`
-- `mysql2`
-- `dotenv`
-
-## Notas
-- El sistema utiliza procedimientos almacenados en MySQL para la lógica de negocio y validaciones complejas.
-- Para agregar asesores o vendedores solo se requiere el DNI y datos mínimos, el resto se obtiene automáticamente.
-- El README debe actualizarse si agregas nuevas entidades o funcionalidades.
-
----
-¿Necesitas ejemplos de uso de endpoints o detalles de algún módulo en particular? Modifica este README según tu flujo de trabajo.
