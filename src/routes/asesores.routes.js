@@ -8,9 +8,63 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     AsesorInput:
+ *       type: object
+ *       required:
+ *         - dni
+ *         - experiencia
+ *         - contrasena
+ *         - esAdministrador
+ *       properties:
+ *         dni:
+ *           type: string
+ *           description: DNI del asesor
+ *           example: "12345678"
+ *         experiencia:
+ *           type: integer
+ *           description: Años de experiencia
+ *           example: 5
+ *         contrasena:
+ *           type: string
+ *           description: Contraseña del asesor
+ *           example: "password123"
+ *         esAdministrador:
+ *           type: boolean
+ *           description: Si el asesor es administrador
+ *           example: false
+ *         estado:
+ *           type: string
+ *           description: Estado del asesor (activo/inactivo)
+ *           example: "activo"
+ *     Asesor:
+ *       allOf:
+ *         - $ref: '#/components/schemas/AsesorInput'
+ *         - type: object
+ *           properties:
+ *             cod_asesor:
+ *               type: integer
+ *               example: 1
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Asesor agregado correctamente
+ *         asesor:
+ *           $ref: '#/components/schemas/Asesor'
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /asesores:
  *   post:
- *     summary: Agregar un nuevo asesor
+ *     summary: Crear un nuevo asesor
+ *     description: Registra un asesor con sus datos personales y credenciales.
  *     tags:
  *       - Asesores
  *     requestBody:
@@ -18,23 +72,26 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               dni:
- *                 type: string
- *               experiencia:
- *                 type: integer
- *               contrasena:
- *                 type: string
- *               esAdministrador:
- *                 type: boolean
- *               estado:
- *                 type: string
+ *             $ref: '#/components/schemas/AsesorInput'
+ *           example:
+ *             dni: "12345678"
+ *             experiencia: 5
+ *             contrasena: "password123"
+ *             esAdministrador: false
+ *             estado: "activo"
  *     responses:
  *       201:
  *         description: Asesor creado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error en los datos enviados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 // POST: Agregar asesor
@@ -56,6 +113,7 @@ router.post('/', async (req, res) => {
  * /asesores:
  *   get:
  *     summary: Obtener todos los asesores
+ *     description: Devuelve una lista de todos los asesores registrados.
  *     tags:
  *       - Asesores
  *     responses:
@@ -66,9 +124,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Asesor'
  *       404:
  *         description: No se encontraron asesores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todos los asesores
 router.get('/', async (req, res) => {

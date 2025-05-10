@@ -8,9 +8,47 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     RolInput:
+ *       type: object
+ *       required:
+ *         - nombre_rol
+ *         - descripcion
+ *       properties:
+ *         nombre_rol:
+ *           type: string
+ *           description: Nombre del rol
+ *           example: "Administrador"
+ *         descripcion:
+ *           type: string
+ *           description: Descripción del rol
+ *           example: "Acceso total al sistema"
+ *     Rol:
+ *       allOf:
+ *         - $ref: '#/components/schemas/RolInput'
+ *         - type: object
+ *           properties:
+ *             cod_rol:
+ *               type: integer
+ *               example: 1
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Rol agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /roles:
  *   post:
- *     summary: Agregar un nuevo rol
+ *     summary: Crear un nuevo rol
+ *     description: Permite registrar un nuevo rol para el sistema.
  *     tags:
  *       - Roles
  *     requestBody:
@@ -18,17 +56,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre_rol:
- *                 type: string
- *               descripcion:
- *                 type: string
+ *             $ref: '#/components/schemas/RolInput'
+ *           example:
+ *             nombre_rol: "Administrador"
+ *             descripcion: "Acceso total al sistema"
  *     responses:
  *       201:
  *         description: Rol agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar rol
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar rol
 router.post('/', async (req, res) => {
@@ -46,6 +90,7 @@ router.post('/', async (req, res) => {
  * /roles:
  *   get:
  *     summary: Obtener todos los roles
+ *     description: Devuelve la lista de todos los roles registrados.
  *     tags:
  *       - Roles
  *     responses:
@@ -56,9 +101,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Rol'
  *       404:
  *         description: No se encontraron roles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todos los roles
 router.get('/', async (req, res) => {

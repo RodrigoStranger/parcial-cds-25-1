@@ -8,9 +8,42 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     TelefonoProveedorInput:
+ *       type: object
+ *       required:
+ *         - ruc
+ *         - telefono
+ *       properties:
+ *         ruc:
+ *           type: string
+ *           description: RUC del proveedor
+ *           example: "20123456789"
+ *         telefono:
+ *           type: string
+ *           description: Teléfono a registrar
+ *           example: "987654321"
+ *     TelefonoProveedor:
+ *       allOf:
+ *         - $ref: '#/components/schemas/TelefonoProveedorInput'
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Teléfono agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /telefonos_proveedores:
  *   post:
  *     summary: Agregar teléfono a un proveedor
+ *     description: Permite registrar un nuevo teléfono para un proveedor usando su RUC.
  *     tags:
  *       - TelefonosProveedores
  *     requestBody:
@@ -18,17 +51,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               ruc:
- *                 type: string
- *               telefono:
- *                 type: string
+ *             $ref: '#/components/schemas/TelefonoProveedorInput'
+ *           example:
+ *             ruc: "20123456789"
+ *             telefono: "987654321"
  *     responses:
  *       201:
  *         description: Teléfono agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar teléfono
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar teléfono a un proveedor
 router.post('/', async (req, res) => {
@@ -49,6 +88,7 @@ router.post('/', async (req, res) => {
  * /telefonos_proveedores/{ruc}:
  *   get:
  *     summary: Obtener teléfonos de un proveedor
+ *     description: Devuelve la lista de teléfonos asociados a un proveedor por su RUC.
  *     tags:
  *       - TelefonosProveedores
  *     parameters:
@@ -66,9 +106,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/TelefonoProveedor'
  *       404:
  *         description: Proveedor o teléfonos no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener teléfonos de un proveedor
 router.get('/:ruc', async (req, res) => {

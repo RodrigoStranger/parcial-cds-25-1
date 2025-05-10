@@ -8,9 +8,46 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     CategoriaInput:
+ *       type: object
+ *       required:
+ *         - nombre_categoria
+ *       properties:
+ *         nombre_categoria:
+ *           type: string
+ *           description: Nombre de la categoría
+ *           example: "Salud"
+ *         descripcion:
+ *           type: string
+ *           description: Descripción de la categoría
+ *           example: "Categoría relacionada con productos de salud"
+ *     Categoria:
+ *       allOf:
+ *         - $ref: '#/components/schemas/CategoriaInput'
+ *         - type: object
+ *           properties:
+ *             cod_categoria:
+ *               type: integer
+ *               example: 2
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Categoría agregada correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /categorias:
  *   post:
- *     summary: Agregar una nueva categoría
+ *     summary: Crear una nueva categoría
+ *     description: Permite registrar una nueva categoría de productos.
  *     tags:
  *       - Categorias
  *     requestBody:
@@ -18,17 +55,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre_categoria:
- *                 type: string
- *               descripcion:
- *                 type: string
+ *             $ref: '#/components/schemas/CategoriaInput'
+ *           example:
+ *             nombre_categoria: "Salud"
+ *             descripcion: "Categoría relacionada con productos de salud"
  *     responses:
  *       201:
  *         description: Categoría agregada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar categoría
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar una categoría
 router.post('/', async (req, res) => {
@@ -46,6 +89,7 @@ router.post('/', async (req, res) => {
  * /categorias:
  *   get:
  *     summary: Obtener todas las categorías
+ *     description: Devuelve la lista de todas las categorías registradas.
  *     tags:
  *       - Categorias
  *     responses:
@@ -56,9 +100,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Categoria'
  *       404:
  *         description: No se encontraron categorías
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todas las categorías
 router.get('/', async (req, res) => {

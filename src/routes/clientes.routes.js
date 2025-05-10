@@ -9,9 +9,56 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     ClienteInput:
+ *       type: object
+ *       required:
+ *         - dni
+ *       properties:
+ *         dni:
+ *           type: string
+ *           description: DNI del cliente
+ *           example: "12345678"
+ *     Cliente:
+ *       type: object
+ *       properties:
+ *         cod_cliente:
+ *           type: integer
+ *           example: 1
+ *         dni:
+ *           type: string
+ *           example: "12345678"
+ *         nombre:
+ *           type: string
+ *           example: "Juan"
+ *         apellido:
+ *           type: string
+ *           example: "Pérez"
+ *         fecha_nacimiento:
+ *           type: string
+ *           format: date
+ *           example: "1990-01-01"
+ *         estado:
+ *           type: string
+ *           example: "activo"
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Cliente creado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: El DNI es requerido
+ *
  * /clientes:
  *   get:
  *     summary: Obtener todos los clientes
+ *     description: Devuelve una lista de todos los clientes registrados.
  *     tags:
  *       - Clientes
  *     responses:
@@ -22,16 +69,21 @@ router.use(verifyToken);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Cliente'
  *       404:
  *         description: No se encontraron clientes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**
  * @openapi
  * /clientes:
  *   post:
- *     summary: Agregar un nuevo cliente
+ *     summary: Crear un nuevo cliente
+ *     description: Registra un cliente solo con su DNI. El resto de los datos se completan automáticamente.
  *     tags:
  *       - Clientes
  *     requestBody:
@@ -39,15 +91,22 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               dni:
- *                 type: string
+ *             $ref: '#/components/schemas/ClienteInput'
+ *           example:
+ *             dni: "12345678"
  *     responses:
  *       201:
  *         description: Cliente creado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Datos faltantes o inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**
@@ -55,6 +114,7 @@ router.use(verifyToken);
  * /clientes/{dni}:
  *   get:
  *     summary: Obtener cliente por DNI
+ *     description: Devuelve los datos de un cliente a partir de su DNI.
  *     tags:
  *       - Clientes
  *     parameters:
@@ -67,8 +127,16 @@ router.use(verifyToken);
  *     responses:
  *       200:
  *         description: Datos del cliente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Cliente'
  *       404:
  *         description: Cliente no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 // POST: Agregar cliente solo con DNI

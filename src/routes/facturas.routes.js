@@ -8,9 +8,56 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     FacturaInput:
+ *       type: object
+ *       required:
+ *         - dni_cliente
+ *         - cod_vendedor
+ *       properties:
+ *         dni_cliente:
+ *           type: string
+ *           description: DNI del cliente
+ *           example: "12345678"
+ *         cod_vendedor:
+ *           type: integer
+ *           description: Código del vendedor
+ *           example: 2
+ *         cod_asesor:
+ *           type: integer
+ *           description: Código del asesor (opcional)
+ *           nullable: true
+ *           example: 3
+ *     Factura:
+ *       allOf:
+ *         - $ref: '#/components/schemas/FacturaInput'
+ *         - type: object
+ *           properties:
+ *             cod_factura:
+ *               type: integer
+ *               example: 10
+ *             fecha:
+ *               type: string
+ *               format: date
+ *               example: "2024-05-09"
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Factura creada correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /facturas:
  *   post:
  *     summary: Crear una nueva factura
+ *     description: Permite registrar una nueva factura, vinculando cliente, vendedor y opcionalmente asesor.
  *     tags:
  *       - Facturas
  *     requestBody:
@@ -18,20 +65,24 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               dni_cliente:
- *                 type: string
- *               cod_vendedor:
- *                 type: integer
- *               cod_asesor:
- *                 type: integer
- *                 nullable: true
+ *             $ref: '#/components/schemas/FacturaInput'
+ *           example:
+ *             dni_cliente: "12345678"
+ *             cod_vendedor: 2
+ *             cod_asesor: 3
  *     responses:
  *       201:
  *         description: Factura creada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error en los datos enviados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**
@@ -39,6 +90,7 @@ router.use(verifyToken);
  * /facturas:
  *   get:
  *     summary: Obtener todas las facturas
+ *     description: Devuelve la lista de todas las facturas registradas.
  *     tags:
  *       - Facturas
  *     responses:
@@ -49,7 +101,13 @@ router.use(verifyToken);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Factura'
+ *       404:
+ *         description: No se encontraron facturas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**
@@ -57,6 +115,7 @@ router.use(verifyToken);
  * /facturas/{cod_factura}:
  *   get:
  *     summary: Obtener detalles de una factura específica
+ *     description: Devuelve los datos de una factura por su código único.
  *     tags:
  *       - Facturas
  *     parameters:
@@ -69,8 +128,16 @@ router.use(verifyToken);
  *     responses:
  *       200:
  *         description: Detalles de la factura
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Factura'
  *       404:
  *         description: Factura no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**

@@ -8,9 +8,48 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     ProveedorInput:
+ *       type: object
+ *       required:
+ *         - ruc
+ *         - nombre
+ *       properties:
+ *         ruc:
+ *           type: string
+ *           description: RUC del proveedor
+ *           example: "20123456789"
+ *         nombre:
+ *           type: string
+ *           description: Nombre o razón social del proveedor
+ *           example: "Laboratorios Salud S.A."
+ *     Proveedor:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ProveedorInput'
+ *         - type: object
+ *           properties:
+ *             direccion:
+ *               type: string
+ *               description: Dirección del proveedor
+ *               example: "Av. Salud 123, Lima"
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Proveedor agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /proveedores:
  *   post:
- *     summary: Agregar un nuevo proveedor
+ *     summary: Crear un nuevo proveedor
+ *     description: Permite registrar un nuevo proveedor con su RUC y nombre o razón social.
  *     tags:
  *       - Proveedores
  *     requestBody:
@@ -18,19 +57,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               ruc:
- *                 type: string
- *               razon_social:
- *                 type: string
- *               direccion:
- *                 type: string
+ *             $ref: '#/components/schemas/ProveedorInput'
+ *           example:
+ *             ruc: "20123456789"
+ *             nombre: "Laboratorios Salud S.A."
  *     responses:
  *       201:
  *         description: Proveedor agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar proveedor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar proveedor
 router.post('/', async (req, res) => {
@@ -48,6 +91,7 @@ router.post('/', async (req, res) => {
  * /proveedores:
  *   get:
  *     summary: Obtener todos los proveedores
+ *     description: Devuelve la lista de todos los proveedores registrados.
  *     tags:
  *       - Proveedores
  *     responses:
@@ -58,9 +102,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Proveedor'
  *       404:
  *         description: No se encontraron proveedores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todos los proveedores
 router.get('/', async (req, res) => {

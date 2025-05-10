@@ -8,9 +8,62 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     VendedorInput:
+ *       type: object
+ *       required:
+ *         - dni
+ *         - estado
+ *         - contrasena
+ *         - esAdministrador
+ *         - cod_rol
+ *       properties:
+ *         dni:
+ *           type: string
+ *           description: DNI del vendedor
+ *           example: "12345678"
+ *         estado:
+ *           type: string
+ *           description: Estado del vendedor (activo/inactivo)
+ *           example: "activo"
+ *         contrasena:
+ *           type: string
+ *           description: Contraseña del vendedor
+ *           example: "password123"
+ *         esAdministrador:
+ *           type: boolean
+ *           description: Si el vendedor es administrador
+ *           example: false
+ *         cod_rol:
+ *           type: integer
+ *           description: Código del rol asignado
+ *           example: 2
+ *     Vendedor:
+ *       allOf:
+ *         - $ref: '#/components/schemas/VendedorInput'
+ *         - type: object
+ *           properties:
+ *             cod_vendedor:
+ *               type: integer
+ *               example: 5
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Vendedor agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /vendedores:
  *   post:
- *     summary: Agregar un nuevo vendedor
+ *     summary: Crear un nuevo vendedor
+ *     description: Permite registrar un nuevo vendedor con sus datos completos y asignar rol.
  *     tags:
  *       - Vendedores
  *     requestBody:
@@ -18,23 +71,26 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               dni:
- *                 type: string
- *               estado:
- *                 type: string
- *               contrasena:
- *                 type: string
- *               esAdministrador:
- *                 type: boolean
- *               cod_rol:
- *                 type: integer
+ *             $ref: '#/components/schemas/VendedorInput'
+ *           example:
+ *             dni: "12345678"
+ *             estado: "activo"
+ *             contrasena: "password123"
+ *             esAdministrador: false
+ *             cod_rol: 2
  *     responses:
  *       201:
  *         description: Vendedor agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error en los datos enviados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar vendedor
 router.post('/', async (req, res) => {
@@ -55,6 +111,7 @@ router.post('/', async (req, res) => {
  * /vendedores:
  *   get:
  *     summary: Obtener todos los vendedores
+ *     description: Devuelve la lista de todos los vendedores registrados.
  *     tags:
  *       - Vendedores
  *     responses:
@@ -65,9 +122,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Vendedor'
  *       404:
  *         description: No se encontraron vendedores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todos los vendedores
 router.get('/', async (req, res) => {

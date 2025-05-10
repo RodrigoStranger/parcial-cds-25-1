@@ -8,9 +8,74 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     ProductoInput:
+ *       type: object
+ *       required:
+ *         - nombre
+ *         - precio_venta
+ *         - stock
+ *         - cod_categoria
+ *         - cod_linea
+ *       properties:
+ *         nombre:
+ *           type: string
+ *           description: Nombre del producto
+ *           example: "Paracetamol"
+ *         descripcion:
+ *           type: string
+ *           description: Descripción del producto
+ *           example: "Medicamento para fiebre y dolor"
+ *         precio_compra:
+ *           type: number
+ *           description: Precio de compra
+ *           example: 2.50
+ *         precio_venta:
+ *           type: number
+ *           description: Precio de venta
+ *           example: 5.00
+ *         stock:
+ *           type: integer
+ *           description: Stock disponible
+ *           example: 100
+ *         cod_categoria:
+ *           type: integer
+ *           description: Código de la categoría
+ *           example: 3
+ *         cod_linea:
+ *           type: integer
+ *           description: Código de la línea
+ *           example: 1
+ *         estado:
+ *           type: string
+ *           description: Estado del producto (activo/inactivo)
+ *           example: "activo"
+ *     Producto:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ProductoInput'
+ *         - type: object
+ *           properties:
+ *             cod_producto:
+ *               type: integer
+ *               example: 10
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Producto agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /productos:
  *   post:
- *     summary: Agregar un nuevo producto
+ *     summary: Crear un nuevo producto
+ *     description: Permite registrar un nuevo producto con sus datos completos.
  *     tags:
  *       - Productos
  *     requestBody:
@@ -18,23 +83,29 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre_producto:
- *                 type: string
- *               precio:
- *                 type: number
- *               stock:
- *                 type: integer
- *               cod_categoria:
- *                 type: integer
- *               cod_linea:
- *                 type: integer
+ *             $ref: '#/components/schemas/ProductoInput'
+ *           example:
+ *             nombre: "Paracetamol"
+ *             descripcion: "Medicamento para fiebre y dolor"
+ *             precio_compra: 2.50
+ *             precio_venta: 5.00
+ *             stock: 100
+ *             cod_categoria: 3
+ *             cod_linea: 1
+ *             estado: "activo"
  *     responses:
  *       201:
  *         description: Producto agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar producto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar producto
 router.post('/', async (req, res) => {
@@ -52,6 +123,7 @@ router.post('/', async (req, res) => {
  * /productos:
  *   get:
  *     summary: Obtener todos los productos
+ *     description: Devuelve la lista de todos los productos registrados.
  *     tags:
  *       - Productos
  *     responses:
@@ -62,9 +134,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Producto'
  *       404:
  *         description: No se encontraron productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todos los productos
 router.get('/', async (req, res) => {

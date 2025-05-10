@@ -8,9 +8,52 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     DetalleFacturaInput:
+ *       type: object
+ *       required:
+ *         - cod_factura
+ *         - cod_producto
+ *         - cantidad
+ *       properties:
+ *         cod_factura:
+ *           type: integer
+ *           description: Código de la factura
+ *           example: 1
+ *         cod_producto:
+ *           type: integer
+ *           description: Código del producto
+ *           example: 10
+ *         cantidad:
+ *           type: integer
+ *           description: Cantidad del producto
+ *           example: 2
+ *     DetalleFactura:
+ *       allOf:
+ *         - $ref: '#/components/schemas/DetalleFacturaInput'
+ *         - type: object
+ *           properties:
+ *             cod_detalle:
+ *               type: integer
+ *               example: 100
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Detalle agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /detalle_facturas:
  *   post:
  *     summary: Agregar un detalle a una factura
+ *     description: Permite agregar un producto y su cantidad a una factura específica.
  *     tags:
  *       - DetalleFacturas
  *     requestBody:
@@ -18,19 +61,24 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               cod_factura:
- *                 type: integer
- *               cod_producto:
- *                 type: integer
- *               cantidad:
- *                 type: integer
+ *             $ref: '#/components/schemas/DetalleFacturaInput'
+ *           example:
+ *             cod_factura: 1
+ *             cod_producto: 10
+ *             cantidad: 2
  *     responses:
  *       201:
  *         description: Detalle agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error en los datos enviados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**
@@ -38,6 +86,7 @@ router.use(verifyToken);
  * /detalle_facturas:
  *   get:
  *     summary: Obtener todos los detalles de facturas
+ *     description: Devuelve la lista de todos los detalles registrados en todas las facturas.
  *     tags:
  *       - DetalleFacturas
  *     responses:
@@ -48,7 +97,13 @@ router.use(verifyToken);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/DetalleFactura'
+ *       404:
+ *         description: No se encontraron detalles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**
@@ -56,6 +111,7 @@ router.use(verifyToken);
  * /detalle_facturas/{cod_factura}:
  *   get:
  *     summary: Obtener detalles de una factura específica
+ *     description: Devuelve todos los detalles (productos y cantidades) asociados a una factura.
  *     tags:
  *       - DetalleFacturas
  *     parameters:
@@ -68,8 +124,18 @@ router.use(verifyToken);
  *     responses:
  *       200:
  *         description: Detalles de la factura
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/DetalleFactura'
  *       404:
  *         description: Factura no encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 
 /**

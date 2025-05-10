@@ -8,9 +8,46 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     EspecialidadInput:
+ *       type: object
+ *       required:
+ *         - nombre_especialidad
+ *       properties:
+ *         nombre_especialidad:
+ *           type: string
+ *           description: Nombre de la especialidad
+ *           example: "Cardiología"
+ *         descripcion:
+ *           type: string
+ *           description: Descripción de la especialidad
+ *           example: "Especialidad médica relacionada con el corazón"
+ *     Especialidad:
+ *       allOf:
+ *         - $ref: '#/components/schemas/EspecialidadInput'
+ *         - type: object
+ *           properties:
+ *             cod_especialidad:
+ *               type: integer
+ *               example: 5
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Especialidad agregada correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: El nombre de la especialidad es requerido
+ *
  * /especialidades:
  *   post:
- *     summary: Agregar una nueva especialidad
+ *     summary: Crear una nueva especialidad
+ *     description: Permite registrar una nueva especialidad médica o profesional.
  *     tags:
  *       - Especialidades
  *     requestBody:
@@ -18,17 +55,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre_especialidad:
- *                 type: string
- *               descripcion:
- *                 type: string
+ *             $ref: '#/components/schemas/EspecialidadInput'
+ *           example:
+ *             nombre_especialidad: "Cardiología"
+ *             descripcion: "Especialidad médica relacionada con el corazón"
  *     responses:
  *       201:
  *         description: Especialidad agregada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar especialidad
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar especialidad
 router.post('/', async (req, res) => {
@@ -47,6 +90,7 @@ router.post('/', async (req, res) => {
  * /especialidades:
  *   get:
  *     summary: Obtener todas las especialidades
+ *     description: Devuelve la lista de todas las especialidades registradas.
  *     tags:
  *       - Especialidades
  *     responses:
@@ -57,9 +101,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Especialidad'
  *       400:
  *         description: Error al obtener especialidades
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todas las especialidades
 router.get('/', async (req, res) => {

@@ -34,9 +34,43 @@ const SECRET_KEY = process.env.JWT_SECRET;
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     LoginInput:
+ *       type: object
+ *       required:
+ *         - dni
+ *         - contraseña
+ *       properties:
+ *         dni:
+ *           type: string
+ *           description: DNI del usuario
+ *           example: "12345678"
+ *         contraseña:
+ *           type: string
+ *           description: Contraseña del usuario
+ *           example: "password123"
+ *     LoginExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Login exitoso
+ *         token:
+ *           type: string
+ *           description: Token JWT generado
+ *           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJk..."
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Credenciales inválidas
+ *
  * /login:
  *   post:
  *     summary: Autenticación de usuario (login)
+ *     description: Permite autenticar a un usuario con su DNI y contraseña. Devuelve un JWT si las credenciales son correctas.
  *     tags:
  *       - Autenticación
  *     requestBody:
@@ -44,21 +78,24 @@ const SECRET_KEY = process.env.JWT_SECRET;
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               dni:
- *                 type: string
- *               contraseña:
- *                 type: string
+ *             $ref: '#/components/schemas/LoginInput'
+ *           example:
+ *             dni: "12345678"
+ *             contraseña: "password123"
  *     responses:
  *       200:
  *         description: Login exitoso, retorna JWT
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 mensaje:
+ *               $ref: '#/components/schemas/LoginExito'
+ *       401:
+ *         description: Credenciales inválidas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
  *                   type: string
  *                 token:
  *                   type: string

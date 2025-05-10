@@ -8,9 +8,65 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     ContratoInput:
+ *       type: object
+ *       required:
+ *         - cod_empleado
+ *         - fecha_inicio
+ *         - salario_men
+ *       properties:
+ *         cod_empleado:
+ *           type: integer
+ *           description: Código del empleado
+ *           example: 1
+ *         fecha_inicio:
+ *           type: string
+ *           format: date
+ *           description: Fecha de inicio del contrato
+ *           example: "2024-01-01"
+ *         fecha_fin:
+ *           type: string
+ *           format: date
+ *           description: Fecha de fin del contrato
+ *           example: "2024-12-31"
+ *         salario_men:
+ *           type: number
+ *           description: Salario mensual
+ *           example: 2500.50
+ *         observaciones:
+ *           type: string
+ *           description: Observaciones adicionales
+ *           example: "Contrato temporal"
+ *     Contrato:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ContratoInput'
+ *         - type: object
+ *           properties:
+ *             cod_contrato:
+ *               type: integer
+ *               example: 10
+ *             estado:
+ *               type: string
+ *               example: "activo"
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         mensaje:
+ *           type: string
+ *           example: Contrato agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /contratos:
  *   post:
- *     summary: Agregar un nuevo contrato
+ *     summary: Crear un nuevo contrato
+ *     description: Permite registrar un nuevo contrato para un empleado.
  *     tags:
  *       - Contratos
  *     requestBody:
@@ -18,25 +74,26 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               cod_empleado:
- *                 type: integer
- *               fecha_inicio:
- *                 type: string
- *                 format: date
- *               fecha_fin:
- *                 type: string
- *                 format: date
- *               salario_men:
- *                 type: number
- *               observaciones:
- *                 type: string
+ *             $ref: '#/components/schemas/ContratoInput'
+ *           example:
+ *             cod_empleado: 1
+ *             fecha_inicio: "2024-01-01"
+ *             fecha_fin: "2024-12-31"
+ *             salario_men: 2500.50
+ *             observaciones: "Contrato temporal"
  *     responses:
  *       201:
  *         description: Contrato agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Datos faltantes o error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar contrato
 router.post('/', async (req, res) => {
@@ -57,6 +114,7 @@ router.post('/', async (req, res) => {
  * /contratos:
  *   get:
  *     summary: Obtener todos los contratos
+ *     description: Devuelve la lista de todos los contratos registrados.
  *     tags:
  *       - Contratos
  *     responses:
@@ -67,7 +125,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Contrato'
+ *       404:
+ *         description: No se encontraron contratos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todos los contratos
 router.get('/', async (req, res) => {

@@ -8,9 +8,47 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     LineaInput:
+ *       type: object
+ *       required:
+ *         - ruc
+ *         - nombre_linea
+ *       properties:
+ *         ruc:
+ *           type: string
+ *           description: RUC del proveedor
+ *           example: "20123456789"
+ *         nombre_linea:
+ *           type: string
+ *           description: Nombre de la línea
+ *           example: "Línea Salud"
+ *     Linea:
+ *       allOf:
+ *         - $ref: '#/components/schemas/LineaInput'
+ *         - type: object
+ *           properties:
+ *             cod_linea:
+ *               type: integer
+ *               example: 1
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Línea agregada correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         error:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /lineas:
  *   post:
- *     summary: Agregar una nueva línea
+ *     summary: Crear una nueva línea
+ *     description: Permite registrar una nueva línea asociada a un proveedor por RUC.
  *     tags:
  *       - Lineas
  *     requestBody:
@@ -18,17 +56,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               ruc:
- *                 type: string
- *               nombre_linea:
- *                 type: string
+ *             $ref: '#/components/schemas/LineaInput'
+ *           example:
+ *             ruc: "20123456789"
+ *             nombre_linea: "Línea Salud"
  *     responses:
  *       201:
  *         description: Línea agregada correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar línea
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar una línea
 router.post('/', async (req, res) => {
@@ -46,6 +90,7 @@ router.post('/', async (req, res) => {
  * /lineas:
  *   get:
  *     summary: Obtener todas las líneas
+ *     description: Devuelve la lista de todas las líneas registradas.
  *     tags:
  *       - Lineas
  *     responses:
@@ -56,9 +101,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/Linea'
  *       404:
  *         description: No se encontraron líneas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener todas las líneas
 router.get('/', async (req, res) => {

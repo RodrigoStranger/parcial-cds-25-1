@@ -8,9 +8,42 @@ router.use(verifyToken);
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     TelefonoPersonaInput:
+ *       type: object
+ *       required:
+ *         - dni
+ *         - telefono
+ *       properties:
+ *         dni:
+ *           type: string
+ *           description: DNI de la persona
+ *           example: "12345678"
+ *         telefono:
+ *           type: string
+ *           description: Teléfono a registrar
+ *           example: "987654321"
+ *     TelefonoPersona:
+ *       allOf:
+ *         - $ref: '#/components/schemas/TelefonoPersonaInput'
+ *     MensajeExito:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Teléfono agregado correctamente
+ *     Error:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Faltan datos requeridos
+ *
  * /telefonos_personas:
  *   post:
  *     summary: Agregar teléfono a una persona
+ *     description: Permite registrar un nuevo teléfono para una persona usando su DNI.
  *     tags:
  *       - TelefonosPersonas
  *     requestBody:
@@ -18,17 +51,23 @@ router.use(verifyToken);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               dni:
- *                 type: string
- *               telefono:
- *                 type: string
+ *             $ref: '#/components/schemas/TelefonoPersonaInput'
+ *           example:
+ *             dni: "12345678"
+ *             telefono: "987654321"
  *     responses:
  *       201:
  *         description: Teléfono agregado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MensajeExito'
  *       400:
  *         description: Error al agregar teléfono
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // POST: Agregar un teléfono a una persona
 router.post('/', async (req, res) => {
@@ -49,6 +88,7 @@ router.post('/', async (req, res) => {
  * /telefonos_personas/{dni}:
  *   get:
  *     summary: Obtener teléfonos de una persona
+ *     description: Devuelve la lista de teléfonos asociados a una persona por su DNI.
  *     tags:
  *       - TelefonosPersonas
  *     parameters:
@@ -66,9 +106,13 @@ router.post('/', async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: object
+ *                 $ref: '#/components/schemas/TelefonoPersona'
  *       404:
  *         description: Persona o teléfonos no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener teléfonos de una persona
 router.get('/:dni', async (req, res) => {
