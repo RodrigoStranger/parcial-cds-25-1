@@ -34,8 +34,7 @@ const swaggerOptions = {
       description: 'Documentación de la API FabiaNatura',
     },
     servers: [
-      { url: 'http://localhost:3000', description: 'Servidor local' },
-      { url: 'http://localhost:4000', description: 'Servidor de autenticación' }
+      { url: 'http://localhost:3000', description: 'Servidor local' }
     ],
   },
   apis: ['./src/routes/*.js'], // Documenta todos los endpoints en tus archivos de rutas

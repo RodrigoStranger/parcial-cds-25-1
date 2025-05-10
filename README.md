@@ -18,6 +18,13 @@ SHOW VARIABLES LIKE 'log_bin_trust_function_creators';
 SET GLOBAL log_bin_trust_function_creators = 1;
 ```
 
+## Documentación Swagger (OpenAPI)
+
+Puedes acceder a la documentación interactiva de los endpoints de ambos servidores desde tu navegador:
+
+- **API principal:** [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+- **Autenticación:** [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+
 ## Cómo correr los servidores (API y Auth)
 
 El sistema se compone de dos servidores independientes:
