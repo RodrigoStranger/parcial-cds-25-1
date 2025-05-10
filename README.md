@@ -23,7 +23,7 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 Puedes acceder a la documentación interactiva de los endpoints de ambos servidores desde tu navegador:
 
 - **API principal:** [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-- **Autenticación:** [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+- **Autenticación:** [http://localhost:4000/api-docs](http://localhost:4000/api-docs)
 
 ## Cómo correr los servidores (API y Auth)
 
