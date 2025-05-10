@@ -22,6 +22,17 @@ router.post('/', async (req, res) => {
     if (!datos || !datos.nombre || !datos.apellido_paterno || !datos.apellido_materno || !datos.fecha_nacimiento) {
       return res.status(404).json({ error: 'No se pudo obtener datos completos para el DNI' });
     }
+    // Verificar si es mayor de 18 años
+    const hoy = new Date();
+    const nacimiento = new Date(datos.fecha_nacimiento);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+      edad--;
+    }
+    if (edad < 18) {
+      return res.status(400).json({ error: 'No se puede agregar un cliente menor de 18 años' });
+    }
     await ClienteModel.agregarCliente(dni, datos.nombre, datos.apellido_paterno, datos.apellido_materno, datos.fecha_nacimiento);
     res.status(201).json({ 
       mensaje: 'Cliente agregado correctamente',
