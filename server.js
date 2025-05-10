@@ -15,6 +15,7 @@ const asesoresRouter = require('./src/routes/asesores.routes');
 const asesoresEspecialidadesRouter = require('./src/routes/asesores_especialidades.routes');
 const vendedoresRouter = require('./src/routes/vendedores.routes');
 const contratosRouter = require('./src/routes/contratos.routes');
+const detalleFacturasRouter = require('./src/routes/detalle_facturas.routes');
 const especialidadesRouter = require('./src/routes/especialidades.routes')
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/asesores', asesoresRouter);
 app.use('/asesores_especialidades', asesoresEspecialidadesRouter);
 app.use('/vendedores', vendedoresRouter);
 app.use('/contratos', contratosRouter);
+app.use('/detalle_facturas', detalleFacturasRouter);
 app.use('/especialidades', especialidadesRouter);
 
 const PORT = process.env.PORT || 3000;
