@@ -6,6 +6,97 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /detalle_facturas:
+ *   post:
+ *     summary: Agregar un detalle a una factura
+ *     tags:
+ *       - DetalleFacturas
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cod_factura:
+ *                 type: integer
+ *               cod_producto:
+ *                 type: integer
+ *               cantidad:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Detalle agregado correctamente
+ *       400:
+ *         description: Error en los datos enviados
+ */
+
+/**
+ * @openapi
+ * /detalle_facturas:
+ *   get:
+ *     summary: Obtener todos los detalles de facturas
+ *     tags:
+ *       - DetalleFacturas
+ *     responses:
+ *       200:
+ *         description: Lista de detalles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
+
+/**
+ * @openapi
+ * /detalle_facturas/{cod_factura}:
+ *   get:
+ *     summary: Obtener detalles de una factura específica
+ *     tags:
+ *       - DetalleFacturas
+ *     parameters:
+ *       - in: path
+ *         name: cod_factura
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la factura
+ *     responses:
+ *       200:
+ *         description: Detalles de la factura
+ *       404:
+ *         description: Factura no encontrada
+ */
+
+/**
+ * @openapi
+ * /detalle_facturas:
+ *   delete:
+ *     summary: Eliminar un detalle de factura
+ *     tags:
+ *       - DetalleFacturas
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cod_factura:
+ *                 type: integer
+ *               cod_producto:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Detalle eliminado correctamente
+ *       400:
+ *         description: Error al eliminar el detalle
+ */
+
 // POST: Crear detalle de factura
 router.post('/', async (req, res) => {
   const { cod_factura, cod_producto, cantidad } = req.body;

@@ -6,6 +6,30 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /lineas:
+ *   post:
+ *     summary: Agregar una nueva línea
+ *     tags:
+ *       - Lineas
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ruc:
+ *                 type: string
+ *               nombre_linea:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Línea agregada correctamente
+ *       400:
+ *         description: Error al agregar línea
+ */
 // POST: Agregar una línea
 router.post('/', async (req, res) => {
   const { ruc, nombre_linea } = req.body;
@@ -17,6 +41,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /lineas:
+ *   get:
+ *     summary: Obtener todas las líneas
+ *     tags:
+ *       - Lineas
+ *     responses:
+ *       200:
+ *         description: Lista de líneas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: No se encontraron líneas
+ */
 // GET: Obtener todas las líneas
 router.get('/', async (req, res) => {
   try {
@@ -27,6 +70,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /lineas/{cod_linea}:
+ *   get:
+ *     summary: Obtener línea por ID
+ *     tags:
+ *       - Lineas
+ *     parameters:
+ *       - in: path
+ *         name: cod_linea
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la línea
+ *     responses:
+ *       200:
+ *         description: Datos de la línea
+ *       404:
+ *         description: Línea no encontrada
+ */
 // GET: Obtener línea por ID
 router.get('/:cod_linea', async (req, res) => {
   const { cod_linea } = req.params;
@@ -38,6 +101,32 @@ router.get('/:cod_linea', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /lineas/{cod_linea}/productos:
+ *   get:
+ *     summary: Obtener productos por línea
+ *     tags:
+ *       - Lineas
+ *     parameters:
+ *       - in: path
+ *         name: cod_linea
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la línea
+ *     responses:
+ *       200:
+ *         description: Lista de productos de la línea
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: Línea o productos no encontrados
+ */
 // GET: Obtener productos por línea
 router.get('/:cod_linea/productos', async (req, res) => {
   const { cod_linea } = req.params;
@@ -49,6 +138,32 @@ router.get('/:cod_linea/productos', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /lineas/{cod_linea}/facturas:
+ *   get:
+ *     summary: Obtener facturas por línea
+ *     tags:
+ *       - Lineas
+ *     parameters:
+ *       - in: path
+ *         name: cod_linea
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la línea
+ *     responses:
+ *       200:
+ *         description: Lista de facturas de la línea
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: Línea o facturas no encontradas
+ */
 // GET: Obtener facturas por línea
 router.get('/:cod_linea/facturas', async (req, res) => {
   const { cod_linea } = req.params;
@@ -60,6 +175,35 @@ router.get('/:cod_linea/facturas', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /lineas/{cod_linea}/nombre:
+ *   put:
+ *     summary: Actualizar nombre de línea
+ *     tags:
+ *       - Lineas
+ *     parameters:
+ *       - in: path
+ *         name: cod_linea
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la línea
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nuevo_nombre_linea:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Nombre de línea actualizado
+ *       400:
+ *         description: Error al actualizar nombre
+ */
 // PUT: Actualizar nombre de línea
 router.put('/:cod_linea/nombre', async (req, res) => {
   const { cod_linea } = req.params;
@@ -72,6 +216,35 @@ router.put('/:cod_linea/nombre', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /lineas/{cod_linea}/ruc:
+ *   put:
+ *     summary: Actualizar RUC de línea
+ *     tags:
+ *       - Lineas
+ *     parameters:
+ *       - in: path
+ *         name: cod_linea
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la línea
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nuevo_ruc:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: RUC de línea actualizado
+ *       400:
+ *         description: Error al actualizar RUC
+ */
 // PUT: Actualizar RUC de línea
 router.put('/:cod_linea/ruc', async (req, res) => {
   const { cod_linea } = req.params;

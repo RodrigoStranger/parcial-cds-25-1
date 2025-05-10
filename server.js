@@ -21,6 +21,29 @@ const especialidadesRouter = require('./src/routes/especialidades.routes')
 
 const app = express();
 
+// Swagger OpenAPI 3.0
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'API FabiaNatura',
+      version: '1.0.0',
+      description: 'Documentación de la API FabiaNatura',
+    },
+    servers: [
+      { url: 'http://localhost:3000', description: 'Servidor local' },
+      { url: 'http://localhost:4000', description: 'Servidor de autenticación' }
+    ],
+  },
+  apis: ['./src/routes/*.js'], // Documenta todos los endpoints en tus archivos de rutas
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use(express.json());
 app.use('/lineas', lineasRouter);
 app.use('/roles', rolesRouter);

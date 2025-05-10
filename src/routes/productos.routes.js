@@ -6,6 +6,36 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /productos:
+ *   post:
+ *     summary: Agregar un nuevo producto
+ *     tags:
+ *       - Productos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre_producto:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               stock:
+ *                 type: integer
+ *               cod_categoria:
+ *                 type: integer
+ *               cod_linea:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Producto agregado correctamente
+ *       400:
+ *         description: Error al agregar producto
+ */
 // POST: Agregar producto
 router.post('/', async (req, res) => {
   const { nombre, descripcion, precio_compra, precio_venta, stock, cod_categoria, cod_linea, estado } = req.body;
@@ -17,6 +47,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /productos:
+ *   get:
+ *     summary: Obtener todos los productos
+ *     tags:
+ *       - Productos
+ *     responses:
+ *       200:
+ *         description: Lista de productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: No se encontraron productos
+ */
 // GET: Obtener todos los productos
 router.get('/', async (req, res) => {
   try {
@@ -37,6 +86,26 @@ router.get('/disponibles', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /productos/{cod_producto}:
+ *   get:
+ *     summary: Obtener producto por ID
+ *     tags:
+ *       - Productos
+ *     parameters:
+ *       - in: path
+ *         name: cod_producto
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del producto
+ *     responses:
+ *       200:
+ *         description: Datos del producto
+ *       404:
+ *         description: Producto no encontrado
+ */
 // GET: Obtener producto por ID
 router.get('/:cod_producto', async (req, res) => {
   const { cod_producto } = req.params;
@@ -70,6 +139,43 @@ router.get('/:cod_producto/stock', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /productos/{cod_producto}:
+ *   put:
+ *     summary: Actualizar producto
+ *     tags:
+ *       - Productos
+ *     parameters:
+ *       - in: path
+ *         name: cod_producto
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del producto
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre_producto:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               stock:
+ *                 type: integer
+ *               cod_categoria:
+ *                 type: integer
+ *               cod_linea:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Producto actualizado correctamente
+ *       400:
+ *         description: Error al actualizar producto
+ */
 // PUT: Actualizar producto
 router.put('/:cod_producto', async (req, res) => {
   const { cod_producto } = req.params;

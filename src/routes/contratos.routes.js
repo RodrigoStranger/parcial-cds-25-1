@@ -6,6 +6,38 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /contratos:
+ *   post:
+ *     summary: Agregar un nuevo contrato
+ *     tags:
+ *       - Contratos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cod_empleado:
+ *                 type: integer
+ *               fecha_inicio:
+ *                 type: string
+ *                 format: date
+ *               fecha_fin:
+ *                 type: string
+ *                 format: date
+ *               salario_men:
+ *                 type: number
+ *               observaciones:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Contrato agregado correctamente
+ *       400:
+ *         description: Datos faltantes o error
+ */
 // POST: Agregar contrato
 router.post('/', async (req, res) => {
   const { cod_empleado, fecha_inicio, fecha_fin, salario_men, observaciones } = req.body;
@@ -20,6 +52,23 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /contratos:
+ *   get:
+ *     summary: Obtener todos los contratos
+ *     tags:
+ *       - Contratos
+ *     responses:
+ *       200:
+ *         description: Lista de contratos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
 // GET: Obtener todos los contratos
 router.get('/', async (req, res) => {
   try {
@@ -30,6 +79,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /contratos/{cod_contrato}:
+ *   get:
+ *     summary: Obtener contrato por código
+ *     tags:
+ *       - Contratos
+ *     parameters:
+ *       - in: path
+ *         name: cod_contrato
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del contrato
+ *     responses:
+ *       200:
+ *         description: Datos del contrato
+ *       404:
+ *         description: Contrato no encontrado
+ */
 // GET: Obtener contrato por código
 router.get('/:cod_contrato', async (req, res) => {
   try {
@@ -43,6 +112,45 @@ router.get('/:cod_contrato', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /contratos/{cod_contrato}:
+ *   put:
+ *     summary: Actualizar contrato
+ *     tags:
+ *       - Contratos
+ *     parameters:
+ *       - in: path
+ *         name: cod_contrato
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del contrato
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fecha_inicio:
+ *                 type: string
+ *                 format: date
+ *               fecha_fin:
+ *                 type: string
+ *                 format: date
+ *               salario_men:
+ *                 type: number
+ *               observaciones:
+ *                 type: string
+ *               estado:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contrato actualizado correctamente
+ *       400:
+ *         description: Error al actualizar contrato
+ */
 // PUT: Actualizar contrato
 router.put('/:cod_contrato', async (req, res) => {
   const { fecha_inicio, fecha_fin, salario_men, observaciones, estado } = req.body;
@@ -57,6 +165,26 @@ router.put('/:cod_contrato', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /contratos/desactivar/{cod_contrato}:
+ *   put:
+ *     summary: Desactivar contrato
+ *     tags:
+ *       - Contratos
+ *     parameters:
+ *       - in: path
+ *         name: cod_contrato
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del contrato
+ *     responses:
+ *       200:
+ *         description: Contrato desactivado correctamente
+ *       400:
+ *         description: Error al desactivar contrato
+ */
 // PUT: Desactivar contrato
 router.put('/desactivar/:cod_contrato', async (req, res) => {
   try {

@@ -6,6 +6,36 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /vendedores:
+ *   post:
+ *     summary: Agregar un nuevo vendedor
+ *     tags:
+ *       - Vendedores
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dni:
+ *                 type: string
+ *               estado:
+ *                 type: string
+ *               contrasena:
+ *                 type: string
+ *               esAdministrador:
+ *                 type: boolean
+ *               cod_rol:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Vendedor agregado correctamente
+ *       400:
+ *         description: Error en los datos enviados
+ */
 // POST: Agregar vendedor
 router.post('/', async (req, res) => {
   const { dni, estado, contrasena, esAdministrador, cod_rol } = req.body;
@@ -20,6 +50,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /vendedores:
+ *   get:
+ *     summary: Obtener todos los vendedores
+ *     tags:
+ *       - Vendedores
+ *     responses:
+ *       200:
+ *         description: Lista de vendedores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: No se encontraron vendedores
+ */
 // GET: Obtener todos los vendedores
 router.get('/', async (req, res) => {
   try {
@@ -30,6 +79,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /vendedores/{cod_vendedor}:
+ *   get:
+ *     summary: Obtener vendedor por código
+ *     tags:
+ *       - Vendedores
+ *     parameters:
+ *       - in: path
+ *         name: cod_vendedor
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del vendedor
+ *     responses:
+ *       200:
+ *         description: Datos del vendedor
+ *       404:
+ *         description: Vendedor no encontrado
+ */
 // GET: Obtener vendedor por código
 router.get('/:cod_vendedor', async (req, res) => {
   try {
@@ -43,6 +112,43 @@ router.get('/:cod_vendedor', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /vendedores/{cod_vendedor}:
+ *   put:
+ *     summary: Actualizar vendedor
+ *     tags:
+ *       - Vendedores
+ *     parameters:
+ *       - in: path
+ *         name: cod_vendedor
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del vendedor
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dni:
+ *                 type: string
+ *               estado:
+ *                 type: string
+ *               contrasena:
+ *                 type: string
+ *               esAdministrador:
+ *                 type: boolean
+ *               cod_rol:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Vendedor actualizado correctamente
+ *       400:
+ *         description: Error al actualizar vendedor
+ */
 // PUT: Actualizar vendedor
 router.put('/:cod_vendedor', async (req, res) => {
   const { dni, estado, contrasena, esAdministrador, cod_rol } = req.body;

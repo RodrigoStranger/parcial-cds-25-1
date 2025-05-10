@@ -6,6 +6,94 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /facturas:
+ *   post:
+ *     summary: Crear una nueva factura
+ *     tags:
+ *       - Facturas
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dni_cliente:
+ *                 type: string
+ *               cod_vendedor:
+ *                 type: integer
+ *               cod_asesor:
+ *                 type: integer
+ *                 nullable: true
+ *     responses:
+ *       201:
+ *         description: Factura creada correctamente
+ *       400:
+ *         description: Error en los datos enviados
+ */
+
+/**
+ * @openapi
+ * /facturas:
+ *   get:
+ *     summary: Obtener todas las facturas
+ *     tags:
+ *       - Facturas
+ *     responses:
+ *       200:
+ *         description: Lista de facturas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ */
+
+/**
+ * @openapi
+ * /facturas/{cod_factura}:
+ *   get:
+ *     summary: Obtener detalles de una factura específica
+ *     tags:
+ *       - Facturas
+ *     parameters:
+ *       - in: path
+ *         name: cod_factura
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la factura
+ *     responses:
+ *       200:
+ *         description: Detalles de la factura
+ *       404:
+ *         description: Factura no encontrada
+ */
+
+/**
+ * @openapi
+ * /facturas/{cod_factura}:
+ *   delete:
+ *     summary: Eliminar una factura
+ *     tags:
+ *       - Facturas
+ *     parameters:
+ *       - in: path
+ *         name: cod_factura
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la factura
+ *     responses:
+ *       200:
+ *         description: Factura eliminada correctamente
+ *       400:
+ *         description: Error al eliminar la factura
+ */
+
 // POST: Agregar factura
 router.post('/', async (req, res) => {
   const { dni_cliente, cod_vendedor, cod_asesor } = req.body;

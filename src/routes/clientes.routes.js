@@ -7,6 +7,70 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /clientes:
+ *   get:
+ *     summary: Obtener todos los clientes
+ *     tags:
+ *       - Clientes
+ *     responses:
+ *       200:
+ *         description: Lista de clientes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: No se encontraron clientes
+ */
+
+/**
+ * @openapi
+ * /clientes:
+ *   post:
+ *     summary: Agregar un nuevo cliente
+ *     tags:
+ *       - Clientes
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dni:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Cliente creado correctamente
+ *       400:
+ *         description: Datos faltantes o inválidos
+ */
+
+/**
+ * @openapi
+ * /clientes/{dni}:
+ *   get:
+ *     summary: Obtener cliente por DNI
+ *     tags:
+ *       - Clientes
+ *     parameters:
+ *       - in: path
+ *         name: dni
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: DNI del cliente
+ *     responses:
+ *       200:
+ *         description: Datos del cliente
+ *       404:
+ *         description: Cliente no encontrado
+ */
+
 // POST: Agregar cliente solo con DNI
 router.post('/', async (req, res) => {
   const { dni } = req.body;

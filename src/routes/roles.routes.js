@@ -6,7 +6,31 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
-// POST: Agregar un rol
+/**
+ * @openapi
+ * /roles:
+ *   post:
+ *     summary: Agregar un nuevo rol
+ *     tags:
+ *       - Roles
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre_rol:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Rol agregado correctamente
+ *       400:
+ *         description: Error al agregar rol
+ */
+// POST: Agregar rol
 router.post('/', async (req, res) => {
   const { nombre_rol, descripcion } = req.body;
   try {
@@ -17,6 +41,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /roles:
+ *   get:
+ *     summary: Obtener todos los roles
+ *     tags:
+ *       - Roles
+ *     responses:
+ *       200:
+ *         description: Lista de roles
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: No se encontraron roles
+ */
 // GET: Obtener todos los roles
 router.get('/', async (req, res) => {
   try {
@@ -27,6 +70,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /roles/{cod_rol}:
+ *   get:
+ *     summary: Obtener rol por ID
+ *     tags:
+ *       - Roles
+ *     parameters:
+ *       - in: path
+ *         name: cod_rol
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del rol
+ *     responses:
+ *       200:
+ *         description: Datos del rol
+ *       404:
+ *         description: Rol no encontrado
+ */
 // GET: Obtener rol por ID
 router.get('/:cod_rol', async (req, res) => {
   const { cod_rol } = req.params;
@@ -49,6 +112,37 @@ router.get('/:cod_rol/empleados', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /roles/{cod_rol}:
+ *   put:
+ *     summary: Actualizar rol
+ *     tags:
+ *       - Roles
+ *     parameters:
+ *       - in: path
+ *         name: cod_rol
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del rol
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nombre_rol:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Rol actualizado correctamente
+ *       400:
+ *         description: Error al actualizar rol
+ */
 // PUT: Actualizar rol
 router.put('/:cod_rol', async (req, res) => {
   const { cod_rol } = req.params;

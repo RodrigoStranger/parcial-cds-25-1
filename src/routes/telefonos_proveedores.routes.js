@@ -6,7 +6,31 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
-// POST: Agregar un teléfono a un proveedor
+/**
+ * @openapi
+ * /telefonos_proveedores:
+ *   post:
+ *     summary: Agregar teléfono a un proveedor
+ *     tags:
+ *       - TelefonosProveedores
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ruc:
+ *                 type: string
+ *               telefono:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Teléfono agregado correctamente
+ *       400:
+ *         description: Error al agregar teléfono
+ */
+// POST: Agregar teléfono a un proveedor
 router.post('/', async (req, res) => {
     try {
         const { ruc, telefono } = req.body;
@@ -20,6 +44,32 @@ router.post('/', async (req, res) => {
     }
 });
 
+/**
+ * @openapi
+ * /telefonos_proveedores/{ruc}:
+ *   get:
+ *     summary: Obtener teléfonos de un proveedor
+ *     tags:
+ *       - TelefonosProveedores
+ *     parameters:
+ *       - in: path
+ *         name: ruc
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: RUC del proveedor
+ *     responses:
+ *       200:
+ *         description: Lista de teléfonos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: Proveedor o teléfonos no encontrados
+ */
 // GET: Obtener teléfonos de un proveedor
 router.get('/:ruc', async (req, res) => {
     try {
@@ -34,7 +84,33 @@ router.get('/:ruc', async (req, res) => {
     }
 });
 
-// PUT: Actualizar un teléfono de un proveedor
+/**
+ * @openapi
+ * /telefonos_proveedores:
+ *   put:
+ *     summary: Actualizar teléfono de un proveedor
+ *     tags:
+ *       - TelefonosProveedores
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ruc:
+ *                 type: string
+ *               telefono_antiguo:
+ *                 type: string
+ *               telefono_nuevo:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Teléfono actualizado correctamente
+ *       400:
+ *         description: Error al actualizar teléfono
+ */
+// PUT: Actualizar teléfono de un proveedor
 router.put('/', async (req, res) => {
     try {
         const { ruc, telefono_antiguo, telefono_nuevo } = req.body;

@@ -6,6 +6,30 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /asesores_especialidades:
+ *   post:
+ *     summary: Asignar una especialidad a un asesor
+ *     tags:
+ *       - AsesoresEspecialidades
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cod_asesor:
+ *                 type: integer
+ *               cod_especialidad:
+ *                 type: integer
+ *     responses:
+ *       201:
+ *         description: Especialidad agregada al asesor correctamente
+ *       400:
+ *         description: Datos faltantes o error
+ */
 // POST: Agregar especialidad a asesor
 router.post('/', async (req, res) => {
   const { cod_asesor, cod_especialidad } = req.body;
@@ -20,6 +44,32 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /asesores_especialidades/{cod_asesor}:
+ *   get:
+ *     summary: Obtener especialidades de un asesor
+ *     tags:
+ *       - AsesoresEspecialidades
+ *     parameters:
+ *       - in: path
+ *         name: cod_asesor
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del asesor
+ *     responses:
+ *       200:
+ *         description: Lista de especialidades del asesor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: Asesor no encontrado o sin especialidades
+ */
 // GET: Obtener especialidades de un asesor
 router.get('/:cod_asesor', async (req, res) => {
   try {

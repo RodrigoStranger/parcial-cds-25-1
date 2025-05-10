@@ -10,6 +10,45 @@ app.use(express.json());
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
+/**
+ * @openapi
+ * /login:
+ *   post:
+ *     summary: Autenticación de usuario (login)
+ *     tags:
+ *       - Autenticación
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               dni:
+ *                 type: string
+ *               contraseña:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login exitoso, retorna JWT
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                 token:
+ *                   type: string
+ *       400:
+ *         description: DNI o contraseña faltante
+ *       401:
+ *         description: Usuario o contraseña incorrectos
+ *       403:
+ *         description: Usuario inactivo
+ *       500:
+ *         description: Error en la base de datos
+ */
 app.post('/login', async (req, res) => {
   const { dni, contraseña } = req.body;
   if (!dni || !contraseña) {

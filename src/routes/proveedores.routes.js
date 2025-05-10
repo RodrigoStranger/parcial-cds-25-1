@@ -6,6 +6,32 @@ const verifyToken = require('../../auth/autentication');
 // Proteger todas las rutas
 router.use(verifyToken);
 
+/**
+ * @openapi
+ * /proveedores:
+ *   post:
+ *     summary: Agregar un nuevo proveedor
+ *     tags:
+ *       - Proveedores
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ruc:
+ *                 type: string
+ *               razon_social:
+ *                 type: string
+ *               direccion:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Proveedor agregado correctamente
+ *       400:
+ *         description: Error al agregar proveedor
+ */
 // POST: Agregar proveedor
 router.post('/', async (req, res) => {
   const { ruc, nombre } = req.body;
@@ -17,6 +43,25 @@ router.post('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /proveedores:
+ *   get:
+ *     summary: Obtener todos los proveedores
+ *     tags:
+ *       - Proveedores
+ *     responses:
+ *       200:
+ *         description: Lista de proveedores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       404:
+ *         description: No se encontraron proveedores
+ */
 // GET: Obtener todos los proveedores
 router.get('/', async (req, res) => {
   try {
@@ -27,6 +72,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /proveedores/{ruc}:
+ *   get:
+ *     summary: Obtener proveedor por RUC
+ *     tags:
+ *       - Proveedores
+ *     parameters:
+ *       - in: path
+ *         name: ruc
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: RUC del proveedor
+ *     responses:
+ *       200:
+ *         description: Datos del proveedor
+ *       404:
+ *         description: Proveedor no encontrado
+ */
 // GET: Obtener proveedor por RUC
 router.get('/:ruc', async (req, res) => {
   const { ruc } = req.params;
@@ -71,6 +136,37 @@ router.get('/:ruc/lineas', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /proveedores/{ruc}:
+ *   put:
+ *     summary: Actualizar proveedor
+ *     tags:
+ *       - Proveedores
+ *     parameters:
+ *       - in: path
+ *         name: ruc
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: RUC del proveedor
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               razon_social:
+ *                 type: string
+ *               direccion:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Proveedor actualizado correctamente
+ *       400:
+ *         description: Error al actualizar proveedor
+ */
 // PUT: Actualizar proveedor
 router.put('/:ruc', async (req, res) => {
   const { ruc } = req.params;
