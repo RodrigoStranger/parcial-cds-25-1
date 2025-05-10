@@ -23,7 +23,16 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ error: 'No se pudo obtener datos completos para el DNI' });
     }
     await ClienteModel.agregarCliente(dni, datos.nombre, datos.apellido_paterno, datos.apellido_materno, datos.fecha_nacimiento);
-    res.status(201).json({ mensaje: 'Cliente agregado correctamente' });
+    res.status(201).json({ 
+      mensaje: 'Cliente agregado correctamente',
+      cliente: {
+        dni,
+        nombre: datos.nombre,
+        apellido_paterno: datos.apellido_paterno,
+        apellido_materno: datos.apellido_materno,
+        fecha_nacimiento: datos.fecha_nacimiento
+      }
+    });
   } catch (error) {
     res.status(400).json({ error: error.sqlMessage || error.message });
   }
