@@ -177,6 +177,37 @@ router.get('/:cod_linea', async (req, res) => {
  *         description: Línea o productos no encontrados
  */
 // GET: Obtener productos por línea
+/**
+ * @openapi
+ * /lineas/{cod_linea}/productos:
+ *   get:
+ *     summary: Obtener productos por línea
+ *     description: Devuelve la lista de productos asociados a una línea específica por su código.
+ *     tags:
+ *       - Lineas
+ *     parameters:
+ *       - in: path
+ *         name: cod_linea
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la línea
+ *     responses:
+ *       200:
+ *         description: Lista de productos de la línea
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Producto'
+ *       404:
+ *         description: Línea o productos no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 router.get('/:cod_linea/productos', async (req, res) => {
   const { cod_linea } = req.params;
   try {

@@ -202,6 +202,37 @@ router.get('/:dni', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /clientes/{dni}/productos:
+ *   get:
+ *     summary: Obtener productos comprados por cliente
+ *     description: Devuelve la lista de productos comprados por un cliente a partir de su DNI.
+ *     tags:
+ *       - Clientes
+ *     parameters:
+ *       - in: path
+ *         name: dni
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: DNI del cliente
+ *     responses:
+ *       200:
+ *         description: Lista de productos comprados por el cliente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Producto'
+ *       404:
+ *         description: Cliente o productos no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 // GET: Obtener productos comprados por cliente
 router.get('/:dni/productos', async (req, res) => {
   const { dni } = req.params;

@@ -132,6 +132,30 @@ router.post('/', async (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
+/**
+ * @openapi
+ * /asesores:
+ *   get:
+ *     summary: Obtener todos los asesores
+ *     description: Devuelve la lista de todos los asesores registrados.
+ *     tags:
+ *       - Asesores
+ *     responses:
+ *       200:
+ *         description: Lista de asesores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Asesor'
+ *       404:
+ *         description: No se encontraron asesores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 // GET: Obtener todos los asesores
 router.get('/', async (req, res) => {
   try {

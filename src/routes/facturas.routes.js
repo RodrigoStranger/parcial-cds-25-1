@@ -185,6 +185,37 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /facturas/{cod_factura}/detalles:
+ *   get:
+ *     summary: Obtener detalles de una factura (productos, cantidades, etc.)
+ *     description: Devuelve la lista de productos, cantidades y precios asociados a una factura por su código. No confundir con el endpoint que devuelve solo los datos básicos de la factura.
+ *     tags:
+ *       - Facturas
+ *     parameters:
+ *       - in: path
+ *         name: cod_factura
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la factura
+ *     responses:
+ *       200:
+ *         description: Lista de detalles de la factura
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/DetalleFactura'
+ *       404:
+ *         description: Factura o detalles no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 // GET: Obtener detalles de una factura específica
 router.get('/:cod_factura', async (req, res) => {
   try {

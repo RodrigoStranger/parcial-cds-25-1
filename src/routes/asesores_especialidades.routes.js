@@ -119,6 +119,44 @@ router.post('/', async (req, res) => {
  *               $ref: '#/components/schemas/Error'
  */
 // GET: Obtener especialidades de un asesor
+/**
+ * @openapi
+ * /asesores_especialidades/{cod_asesor}:
+ *   get:
+ *     summary: Obtener especialidades de un asesor
+ *     description: Devuelve la lista de especialidades asignadas a un asesor por su código.
+ *     tags:
+ *       - AsesoresEspecialidades
+ *     parameters:
+ *       - in: path
+ *         name: cod_asesor
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código único del asesor
+ *     responses:
+ *       200:
+ *         description: Lista de especialidades del asesor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   cod_especialidad:
+ *                     type: integer
+ *                     example: 3
+ *                   nombre_especialidad:
+ *                     type: string
+ *                     example: Cardiología
+ *       404:
+ *         description: Asesor o especialidades no encontradas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 router.get('/:cod_asesor', async (req, res) => {
   try {
     const especialidades = await AsesorEspecialidadModel.obtenerEspecialidadesDeAsesor(req.params.cod_asesor);

@@ -150,6 +150,37 @@ router.get('/:cod_rol', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /roles/{cod_rol}/empleados:
+ *   get:
+ *     summary: Obtener empleados por rol
+ *     description: Devuelve la lista de empleados asociados a un rol específico por su código.
+ *     tags:
+ *       - Roles
+ *     parameters:
+ *       - in: path
+ *         name: cod_rol
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código del rol
+ *     responses:
+ *       200:
+ *         description: Lista de empleados del rol
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Empleado'
+ *       404:
+ *         description: Rol o empleados no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 // GET: Obtener empleados por rol
 router.get('/:cod_rol/empleados', async (req, res) => {
   const { cod_rol } = req.params;

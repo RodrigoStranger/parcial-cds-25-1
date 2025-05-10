@@ -187,6 +187,37 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /detalle_facturas/{cod_factura}:
+ *   get:
+ *     summary: Obtener detalles de una factura específica
+ *     description: Devuelve la lista de detalles asociados a una factura por su código.
+ *     tags:
+ *       - DetalleFacturas
+ *     parameters:
+ *       - in: path
+ *         name: cod_factura
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Código de la factura
+ *     responses:
+ *       200:
+ *         description: Lista de detalles de la factura
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/DetalleFactura'
+ *       404:
+ *         description: Factura o detalles no encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 // GET: Obtener detalles de una factura específica
 router.get('/:cod_factura', async (req, res) => {
   try {
