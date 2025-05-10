@@ -15,7 +15,55 @@ SHOW VARIABLES LIKE 'log_bin_trust_function_creators';
 SET GLOBAL log_bin_trust_function_creators = 1;
 ```
 
-## Cómo correr el servidor
+## Cómo correr los servidores (API y Auth)
+
+El sistema se compone de dos servidores independientes:
+
+### 1. Servidor principal (API de gestión)
+
+Ubicación: raíz del proyecto
+
+- Instala dependencias:
+  ```bash
+  npm install
+  ```
+- Configura `.env.local` con las variables de conexión a la base de datos y JWT.
+- Inicia el servidor principal:
+  ```bash
+  npm start
+  ```
+  Por defecto corre en `http://localhost:3000`.
+
+### 2. Servidor de Autenticación (auth)
+
+Ubicación: `/auth`
+
+- Entra a la carpeta:
+  ```bash
+  cd auth
+  ```
+- Instala dependencias:
+  ```bash
+  npm install
+  ```
+- Configura `.env.local` en la carpeta `/auth` (puerto, JWT_SECRET, etc).
+- Inicia el servidor de autenticación:
+  ```bash
+  npm start
+  ```
+  Por defecto corre en `http://localhost:3001`.
+
+## Sobre el módulo de autenticación
+
+El servidor `auth` gestiona el login y la generación de tokens JWT. Los endpoints protegidos en la API principal requieren que envíes un token JWT válido en el header `Authorization`:
+
+```
+Authorization: Bearer <tu_token_jwt>
+```
+
+Para obtener un token, haz login en `/auth/login` enviando tu usuario y contraseña. El token devuelto úsalo en todas las peticiones protegidas.
+
+## Uso de la API de consultaDni
 
 1. Instala las dependencias:
    ```bash
