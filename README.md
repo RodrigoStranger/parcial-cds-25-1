@@ -15,6 +15,23 @@ SHOW VARIABLES LIKE 'log_bin_trust_function_creators';
 SET GLOBAL log_bin_trust_function_creators = 1;
 ```
 
+## Cómo correr el servidor
+
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+2. Configura tu archivo `.env.local` con las variables de conexión a la base de datos y JWT.
+3. Inicia el servidor:
+   ```bash
+   npm start
+   ```
+   El servidor correrá por defecto en `http://localhost:3000`.
+
+## Uso de la API de consultaDni
+
+El sistema integra una API de consultaDni que, al registrar un asesor o vendedor, obtiene automáticamente los datos personales (nombre, apellidos, fecha de nacimiento) a partir del DNI proporcionado. Solo necesitas enviar el DNI y los datos mínimos requeridos en el endpoint correspondiente, y el sistema completará el resto de la información.
+
 ## Estructura principal
 
 - **/src/models/**: Modelos de acceso a datos y lógica de negocio.
