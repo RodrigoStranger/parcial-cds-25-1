@@ -11,7 +11,6 @@ const telefonosRouter = require('./src/routes/telefonos_personas.routes');
 const telefonosProveedoresRouter = require('./src/routes/telefonos_proveedores.routes')
 const direccionesPersonasRouter = require('./src/routes/direcciones_personas.routes')
 const clientesRouter = require('./src/routes/clientes.routes');
-const asesoresRouter = require('./src/routes/asesores.routes')
 const especialidadesRouter = require('./src/routes/especialidades.routes')
 
 const app = express();
@@ -26,7 +25,6 @@ app.use('/telefonos_personas', telefonosRouter);
 app.use('/telefonos_proveedores', telefonosProveedoresRouter);
 app.use('/direcciones_personas', direccionesPersonasRouter);
 app.use('/clientes', clientesRouter);
-app.use('/asesores', asesoresRouter);
 app.use('/especialidades', especialidadesRouter);
 
 const PORT = process.env.PORT || 3000;
