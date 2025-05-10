@@ -30,7 +30,7 @@ Ubicación: raíz del proyecto
 - Configura `.env.local` con las variables de conexión a la base de datos y JWT.
 - Inicia el servidor principal:
   ```bash
-  npm start
+  nodemon server.js
   ```
   Por defecto corre en `http://localhost:3000`.
 
@@ -49,7 +49,7 @@ Ubicación: `/auth`
 - Configura `.env.local` en la carpeta `/auth` (puerto, JWT_SECRET, etc).
 - Inicia el servidor de autenticación:
   ```bash
-  npm start
+  nodemon auth_server.js
   ```
   Por defecto corre en `http://localhost:3001`.
 
