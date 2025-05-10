@@ -36,12 +36,39 @@ const swaggerOptions = {
     servers: [
       { url: 'http://localhost:3000', description: 'Servidor local' }
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          description: 'Ingrese el token JWT en el formato: Bearer <token>'
+        }
+      }
+    },
+    security: [
+      {
+        bearerAuth: []
+      }
+    ]
   },
   apis: ['./src/routes/*.js'], // Documenta todos los endpoints en tus archivos de rutas
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'tu_clave_secreta_aqui'; // En producción, usa una clave segura
+
+// Endpoint para obtener token
+app.post('/auth/token', (req, res) => {
+  const token = jwt.sign({ user: 'admin' }, SECRET_KEY, { expiresIn: '1h' });
+  res.json({
+    token,
+    message: 'Token generado exitosamente'
+  });
+});
 
 app.use(express.json());
 app.use('/lineas', lineasRouter);
