@@ -1,11 +1,5 @@
 const axios = require('axios');
-require('dotenv').config({ path: '.env.token' });
-
-/**
- * Consulta datos completos de una persona por DNI usando la API de consultasperu.com
- * @param {string} dni - DNI a consultar
- * @returns {Promise<{nombre: string, apellido_paterno: string, apellido_materno: string, fecha_nacimiento: string}|null>}
-*/
+require('dotenv').config({ path: require('path').resolve(__dirname, '.env') });
 
 async function generarDatosCompletos(dni) {
   const url = 'https://api.consultasperu.com/api/v1/query';
@@ -15,22 +9,22 @@ async function generarDatosCompletos(dni) {
     type_document: 'dni',
     document_number: dni
   };
+
   try {
     const response = await axios.post(url, data, { headers });
-    if (response.status === 200 && response.data.success) {
-      const apiData = response.data.data || {};
-      const nombre_completo = (apiData.full_name || '').split(' ');
-      const nombre = nombre_completo[0] ? nombre_completo[0].charAt(0).toUpperCase() + nombre_completo[0].slice(1) : '';
-      const apellidos = (apiData.surname || '').split(' ');
-      const apellido_paterno = apellidos[0] ? apellidos[0].charAt(0).toUpperCase() + apellidos[0].slice(1) : '';
-      const apellido_materno = apellidos[1] ? apellidos[1].charAt(0).toUpperCase() + apellidos[1].slice(1) : '';
-      const fecha_nacimiento = apiData.date_of_birth || '';
-      return { nombre, apellido_paterno, apellido_materno, fecha_nacimiento };
-    } else {
-      return null;
-    }
+    const apiData = response.data && response.data.data ? response.data.data : {};
+    return {
+      nombre: apiData.name || null,
+      apellido_paterno: apiData.surname ? apiData.surname.split(' ')[0] || null : null,
+      apellido_materno: apiData.surname ? apiData.surname.split(' ')[1] || null : null,
+      fecha_nacimiento: apiData.date_of_birth || null,
+      apiData
+    };
   } catch (error) {
-    return null;
+    return {
+      error: error.message,
+      detalle: error.response && error.response.data ? error.response.data : null
+    };
   }
 }
 
