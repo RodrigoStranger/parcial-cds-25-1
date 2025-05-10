@@ -12,6 +12,7 @@ const telefonosProveedoresRouter = require('./src/routes/telefonos_proveedores.r
 const direccionesPersonasRouter = require('./src/routes/direcciones_personas.routes')
 const clientesRouter = require('./src/routes/clientes.routes');
 const asesoresRouter = require('./src/routes/asesores.routes');
+const asesoresEspecialidadesRouter = require('./src/routes/asesores_especialidades.routes');
 const vendedoresRouter = require('./src/routes/vendedores.routes');
 const contratosRouter = require('./src/routes/contratos.routes');
 const especialidadesRouter = require('./src/routes/especialidades.routes')
@@ -29,6 +30,7 @@ app.use('/telefonos_proveedores', telefonosProveedoresRouter);
 app.use('/direcciones_personas', direccionesPersonasRouter);
 app.use('/clientes', clientesRouter);
 app.use('/asesores', asesoresRouter);
+app.use('/asesores_especialidades', asesoresEspecialidadesRouter);
 app.use('/vendedores', vendedoresRouter);
 app.use('/contratos', contratosRouter);
 app.use('/especialidades', especialidadesRouter);
