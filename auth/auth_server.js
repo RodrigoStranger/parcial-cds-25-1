@@ -22,7 +22,7 @@ const swaggerOptions = {
       { url: 'http://localhost:4000', description: 'Servidor de autenticación' }
     ],
   },
-  apis: ['./autentication.js'], // Solo autentificación
+  apis: ['./auth_server.js'], // Solo este archivo
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
